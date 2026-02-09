@@ -1,0 +1,7 @@
+{
+  "name": "RepoTutor",
+  "description": "Transform any GitHub repository into an interactive, step-by-step learning tutorial with AI-generated diagrams and code-flow tracing.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

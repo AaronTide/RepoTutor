@@ -1,0 +1,57 @@
+{
+  "repoName": "facebook/react",
+  "description": "A beginner-friendly architectural tour of the React repository, focusing on the project structure, community guidelines, and the modern React Compiler (React Forget) ecosystem found within the codebase.",
+  "chapters": [
+    {
+      "id": "chap-1",
+      "title": "The Welcome Mat: Entering the React Community",
+      "summary": "Understanding the root files that govern the project's rules, history, and contribution guidelines.",
+      "content": "Welcome to the home of React! Before we dive into the complex code that powers millions of websites, we need to understand the 'House Rules'. In any large open-source project like this, the root directory is like the lobby of a building.\n\n### The Guidebook (README.md)\nThe `README.md` is your starting point. It tells you what React is: a library for building User Interfaces (UIs). It explains the three core philosophies:\n1. **Declarative:** You describe *what* you want the UI to look like, not *how* to change it step-by-step.\n2. **Component-Based:** You build small LEGO blocks (components) and combine them into a castle (app).\n3. **Learn Once, Write Anywhere:** The same concepts work for websites, mobile apps, and VR.\n\n### The Rules (CODE_OF_CONDUCT & CONTRIBUTING)\nImagine a playground. The `CODE_OF_CONDUCT.md` lists the rules to ensure everyone plays nicely and treats each other with respect. The `CONTRIBUTING.md` is the manual on how to help build the playground equipment—how to report bugs or suggest changes.\n\n### The History (CHANGELOG)\nThe `CHANGELOG.md` is the diary of the project. It lists every major change, improvement, or fix that has happened over time.",
+      "keyFiles": [
+        "README.md",
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "CHANGELOG.md"
+      ],
+      "mermaidDiagram": "graph TD\n    A[User Visits Repo] --> B{Start Here}\n    B -->|Overview| C[README.md]\n    B -->|Rules| D[CODE_OF_CONDUCT.md]\n    B -->|How to Help| E[CONTRIBUTING.md]\n    B -->|History| F[CHANGELOG.md]\n    C --> G[Learn Core Philosophies]\n    E --> H[Submit Pull Request]"
+    },
+    {
+      "id": "chap-2",
+      "title": "The Engine Room: The React Compiler",
+      "summary": "An introduction to the `compiler/` directory, which houses the logic for automatically optimizing React code.",
+      "content": "A significant portion of the file structure you see belongs to the **React Compiler** (often codenamed 'React Forget').\n\n### The Problem\nIn traditional React, developers often have to manually tell React what part of the app hasn't changed (using tools like `useMemo` or `useCallback`) so it doesn't waste energy redrawing it. This is like manually turning off every light in your house to save electricity.\n\n### The Solution: The Compiler\nThe `compiler/` folder contains a smart tool that does this for you. It reads your JavaScript code and automatically optimizes it. It acts like a smart home system that turns off the lights for you when you leave a room.\n\nInside `compiler/packages/babel-plugin-react-compiler`, the magic happens. It uses a Babel Plugin, which is a tool that takes your code and rewrites it to be faster before the browser ever sees it.",
+      "keyFiles": [
+        "compiler/README.md",
+        "compiler/packages/babel-plugin-react-compiler/README.md",
+        "compiler/docs/DESIGN_GOALS.md"
+      ],
+      "mermaidDiagram": "graph TD\n    A[Your Raw Code] --> B[React Compiler]\n    B --> C{Optimization Process}\n    C -->|Analyze| D[Understand Data Flow]\n    C -->|Rewrite| E[Add Automatic Caching]\n    E --> F[Optimized Code]\n    F --> G[Browser runs faster]"
+    },
+    {
+      "id": "chap-3",
+      "title": "The Simulator: The Playground App",
+      "summary": "Exploring `compiler/apps/playground`, a tool developers use to visualize and test the compiler's output.",
+      "content": "How do the React engineers know if their Compiler is working correctly? They built a **Playground**.\n\nLocated in `compiler/apps/playground`, this is actually a full website built with Next.js (a framework based on React). It's a 'Meta' concept: a React app used to test the tool that optimizes React apps.\n\n### How it works\nImagine a split screen:\n1.  **Input (Left):** You type normal React code.\n2.  **Processor:** The app runs the compiler logic found in `lib/compilation.ts`.\n3.  **Output (Right):** You see the new, optimized code.\n\nThe file structure here looks like a standard web app:\n*   `app/page.tsx`: The main page of the playground.\n*   `components/`: Reusable UI parts like the Code Editor and Header.\n*   `__tests__`: Robots that click around the playground to make sure it doesn't break.",
+      "keyFiles": [
+        "compiler/apps/playground/app/page.tsx",
+        "compiler/apps/playground/components/Editor/index.tsx",
+        "compiler/apps/playground/lib/compilation.ts",
+        "compiler/apps/playground/package.json"
+      ],
+      "mermaidDiagram": "graph TD\n    A[Developer] --> B[Playground Web App]\n    B --> C[Input Window]\n    C --> D[Compiler Logic]\n    D --> E[Output Window]\n    B --> F[Visual Feedback]\n    F -->|Verify| A"
+    },
+    {
+      "id": "chap-4",
+      "title": "The Assembly Line: Compiler Passes",
+      "summary": "Breaking down the step-by-step process of how the compiler transforms code, found in the `docs/passes` directory.",
+      "content": "If you look at the folder `compiler/packages/babel-plugin-react-compiler/docs/passes`, you will see a numbered list of files (01 to 46). This is the **Assembly Line**.\n\nWhen the compiler looks at your code, it doesn't do everything at once. It follows a strict sequence of steps, called 'passes'.\n\n### The Beginner's Analogy: The Car Wash\nThink of your code as a car going through an automatic car wash:\n1.  **Pass 01 (Lowering):** Strip the car down to basics. (Convert complex code to a simpler format called HIR).\n2.  **Pass 06 (Infer Types):** Figure out what materials the car is made of. (Is this variable a number? A string?)\n3.  **Pass 25 (Prune Unused Scopes):** Remove any dirt or trash. (Delete code that isn't actually used).\n4.  **Pass 31 (Codegen):** Polish and shine. (Generate the final JavaScript code).\n\nEach markdown file in this directory explains one specific station in this car wash. By breaking a huge problem into 46 small steps, the engineers make the system easier to maintain.",
+      "keyFiles": [
+        "compiler/packages/babel-plugin-react-compiler/docs/passes/01-lower.md",
+        "compiler/packages/babel-plugin-react-compiler/docs/passes/05-deadCodeElimination.md",
+        "compiler/packages/babel-plugin-react-compiler/docs/passes/31-codegenReactiveFunction.md"
+      ],
+      "mermaidDiagram": "graph TD\n    A[Raw Source Code] --> B[Pass 01: Lower to HIR]\n    B --> C[Pass 05: Dead Code Removal]\n    C --> D[Pass 10: Infer Reactivity]\n    D --> E[Pass 30: Rename Variables]\n    E --> F[Pass 31: Generate Final JS]\n    F --> G[Browser Ready Code]"
+    }
+  ],
+  "highLevelArchitecture": "The repository is a Monorepo (multiple projects in one). At the top level, it manages community standards and build configurations. Internally, it contains the core React library (not detailed in this specific file view) and the **React Compiler**. The Compiler functions as a transformation pipeline: it accepts user code, processes it through a series of specific 'passes' (analysis, optimization, code generation), and outputs highly optimized JavaScript. This system is supported by a 'Playground' application, which serves as a testbed and visualizer for the compiler's behavior."
+}
